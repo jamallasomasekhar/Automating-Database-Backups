@@ -1,0 +1,88 @@
+version: "3.9"
+services:
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: mysql_container
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: testdb
+  #     MYSQL_USER: testuser
+  #     MYSQL_PASSWORD: testpassword
+  #     ENABLE: "false"
+  #   ports:
+  #     - "3306:3306"
+  #   networks:
+  #     - db-network
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 512M
+  #   entrypoint: ["sh", "-c", "if [ \"$ENABLE\" = 'false' ]; then exec docker-entrypoint.sh mysqld; else sleep infinity; fi"]
+
+  postgres:
+    image: postgres:14
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpassword
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    networks:
+      - db-network
+
+  # mssql:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   container_name: mssql_container
+  #   environment:
+  #     ACCEPT_EULA: "Y"
+  #     SA_PASSWORD: "TestPassword!123"
+  #     ENABLE: "false"
+  #   ports:
+  #     - "1433:1433"
+  #   networks:
+  #     - db-network
+  #   entrypoint: ["sh", "-c", "if [ \"$ENABLE\" = 'false' ]; then exec /opt/mssql/bin/sqlservr; else sleep infinity; fi"]
+
+  # oracle:
+  #   image: container-registry.oracle.com/database/express:21.3.0-xe
+  #   container_name: oracle_container
+  #   environment:
+  #     ORACLE_PWD: "oracle"
+  #     ENABLE: "false"
+  #   ports:
+  #     - "1521:1521"
+  #   networks:
+  #     - db-network
+  #   entrypoint: ["sh", "-c", "if [ \"$ENABLE\" = 'false' ]; then exec /bin/bash -c \"/etc/init.d/oracle-xe start && tail -f /dev/null\"; else sleep infinity; fi"]
+
+  # db2:
+  #   image: ibmcom/db2:11.5.7.0
+  #   container_name: db2_container
+  #   environment:
+  #     LICENSE: accept
+  #     DB2INST1_PASSWORD: testpassword
+  #     DBNAME: testdb
+  #     ENABLE: "false"
+  #   ports:
+  #     - "50000:50000"
+  #   networks:
+  #     - db-network
+  #   entrypoint: ["sh", "-c", "if [ \"$ENABLE\" = 'false' ]; then exec /var/db2_setup/lib/db2start; else sleep infinity; fi"]
+
+  # mongodb:
+  #   image: mongo:6.0
+  #   container_name: mongodb_container
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: testuser
+  #     MONGO_INITDB_ROOT_PASSWORD: testpassword
+  #     ENABLE: "false"
+  #   ports:
+  #     - "27017:27017"
+  #   networks:
+  #     - db-network
+  # #   entrypoint: ["sh", "-c", "if [ \"$ENABLE\" = 'false' ]; then exec docker-entrypoint.sh mongod; else sleep infinity; fi"]
+
+networks:
+  db-network:
+    driver: bridge
